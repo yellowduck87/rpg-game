@@ -1,0 +1,11 @@
+* {
+    box-sizing: border-box
+}
+
+.toon-img {
+    float: left;
+}
+
+.banner {
+    position: relative;
+}
