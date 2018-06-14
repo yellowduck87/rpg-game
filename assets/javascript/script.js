@@ -1,27 +1,15 @@
-//2 when one chrater is selected, the rest are moved to enemies possition
-
-//3 when one enemy is selected, it is moved to the defender possition
-
-
-//5 when any character gets to 0 or less hp, the charcter is defeated
-
-//6 when a defnding character is defeted, the image goes away
-
-//7 if the selected character defeats the other three, the user wins.
-
-
 // computed member acces
 
 
-
+game = function() {
 $(document).ready(function () {
 
     var characters = {
         char1: {
             hp: 120,
-            ap: 25,
-            mult: 10,
-            dAp: 25,
+            ap: 20,
+            mult: 9,
+            dAp: 20,
             image: "http://via.placeholder.com/100x100",
 
         },
@@ -64,31 +52,34 @@ $(document).ready(function () {
     loadNewGame = function () {
         for (var i = 0; i < 4; i++) {
 
+            //new div
+            var newDiv = $("<div>");
+            newDiv.addClass("new-div");
+            newDiv.attr("id", characters[char[i]]);
+
             var charImg = $("<img>");
             source = characters[char[i]].image
             charImg.attr("id", char[i]);
             charImg.addClass("toon-img").attr("src", source);
-            $("#readyP1").append(charImg);
+            charImg.attr("id", char[i]);
+            newDiv.append(charImg);
 
-        }
-    }
+            var hitPoints = $("<div>");
+            hit = characters[char[i]].hp;
+            hitPoints.attr("data-hp", hit).attr("id", char[i]);
+            hitPoints.addClass("hit");
+            hitPoints.text(hit);
+            newDiv.append(hitPoints);
 
-    banner = function () {
-        $(".toon-img").wrap("<div class='toon-box'></div>");
-        var hitPoints = $("<div>");
-        hitPoints.attr("id", "health")
-        $(".toon-box").append(hitPoints);
-    }
+            // console.log(hit);
+            $("#readyP1").append(newDiv);
 
-    printHp = function () {
-        for (var i = 0; i < 4; i++) {
-            var hitPoints = characters[char].hp;
 
         }
     }
 
     moveEnemies = function () {
-        var t = $(".toon-img").detach();
+        var t = $(".new-div").detach();
         t.appendTo("#make-your-choice");
         $("#avatar-tag").text("You Will Fight As");
 
@@ -113,9 +104,8 @@ $(document).ready(function () {
     }
 
 
-    //   gameCode = function () {
     toonPicker = function () {
-        $(".toon-img").on("click", function (event) {
+        $(".new-div").on("click", function (event) {
             if (enemyChosen) {
                 return false;
             }
@@ -123,17 +113,20 @@ $(document).ready(function () {
             if (combatChosen) {
                 enemy = event.target.id;
                 $(this).addClass("enemy");
+                $(this).children().addClass("enemy1");
                 fightEnemies();
                 counter++;
                 console.log(counter);
                 enemyChosen = true;
                 console.log("enemy = " + enemy);
+                console.log(enemy);
                 console.log(characters[enemy]);
 
             } else {
                 avatar = event.target.id;
-                $(this).removeClass("toon-img");
+                $(this).removeClass("new-div");
                 $(this).addClass("avatar");
+                $(this).children().addClass("avatar1");
                 moveEnemies();
                 combatChosen = true;
                 console.log("avatar = " + avatar);
@@ -141,9 +134,24 @@ $(document).ready(function () {
             }
         });
     }
+
+    endGame = function() {
+        $("body").replaceWith("<h1>end</h1><button class='reset'>Try Again?</button>");
+    }
+
+    reset = function() {
+        $(".reset").on("click", game())
+    }
+
     attack = function () {
         $("#attack").on("click", function () {
+            if (characters[avatar].hp <= 0) {
+                alert("boo, you lose");
+                endGame();
+            }
+
             if (enemyChosen && characters[enemy].hp > 0) {
+                //save data as text--parseInt--arithmatic--turn to text again
                 characters[enemy].hp -= characters[avatar].ap;
                 characters[avatar].ap += characters[avatar].mult;
                 if (characters[enemy].hp > 0) {
@@ -162,18 +170,18 @@ $(document).ready(function () {
                 if (counter === 3 && characters[enemy].hp <= 0) {
                     alert("yay you win");
                 }
-
+               
             }
-        })
+
+            $(".avatar1").text(characters[avatar].hp);
+            $(".enemy1").text(characters[enemy].hp);
+        });
+
     }
-
-
     loadNewGame();
-    banner();
     toonPicker();
     attack();
-
-
-
-
 });
+}
+
+game();
