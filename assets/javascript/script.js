@@ -1,7 +1,7 @@
 // computed member acces
 
 
-game = function() {
+
 $(document).ready(function () {
 
     var characters = {
@@ -49,7 +49,7 @@ $(document).ready(function () {
 
     char = Object.keys(characters);
 
-    loadNewGame = function () {
+    function loadNewGame() {
         for (var i = 0; i < 4; i++) {
 
             //new div
@@ -78,19 +78,19 @@ $(document).ready(function () {
         }
     }
 
-    moveEnemies = function () {
+    function moveEnemies() {
         var t = $(".new-div").detach();
         t.appendTo("#make-your-choice");
         $("#avatar-tag").text("You Will Fight As");
 
     }
 
-    fightEnemies = function () {
+    function fightEnemies() {
         var e = $(".enemy").detach();
         e.appendTo("#fight-enemies");
     }
 
-    deadToon = function () {
+    function deadToon() {
         graveyard = $(".enemy").detach();
         deathCounter++;
         if (deathCounter === 2) {
@@ -104,7 +104,7 @@ $(document).ready(function () {
     }
 
 
-    toonPicker = function () {
+    function toonPicker() {
         $(".new-div").on("click", function (event) {
             if (enemyChosen) {
                 return false;
@@ -135,15 +135,18 @@ $(document).ready(function () {
         });
     }
 
-    endGame = function() {
-        $("body").replaceWith("<h1>end</h1><button class='reset'>Try Again?</button>");
+    function endGame() {
+        window.location.href = "./reload.html";
     }
 
-    reset = function() {
-        $(".reset").on("click", game())
-    }
+    $("#reset").click(function () {
+        window.location.href = "./index.html";
+        console.log(playAgain);
+    })
 
-    attack = function () {
+
+
+    function attack() {
         $("#attack").on("click", function () {
             if (characters[avatar].hp <= 0) {
                 alert("boo, you lose");
@@ -170,18 +173,16 @@ $(document).ready(function () {
                 if (counter === 3 && characters[enemy].hp <= 0) {
                     alert("yay you win");
                 }
-               
+
             }
 
             $(".avatar1").text(characters[avatar].hp);
             $(".enemy1").text(characters[enemy].hp);
         });
-
     }
+
+
     loadNewGame();
     toonPicker();
     attack();
 });
-}
-
-game();
