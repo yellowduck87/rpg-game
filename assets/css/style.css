@@ -113,13 +113,13 @@ button {
 }
 
 #attack {
-    margin: 10px;
+    margin: 10px 10px 10px 20px;
 }
 
 .hit {
     position: relative;
     text-align: center;
-    padding-top: 100px;
+    padding-top: 105px;
 }
 
 #game-over {
