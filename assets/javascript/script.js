@@ -7,34 +7,49 @@ $(document).ready(function () {
     var characters = {
         char1: {
             hp: 120,
-            ap: 20,
-            mult: 9,
-            dAp: 20,
+            ap: 15,
+            mult: 5,
+            dAp: 17,
             image: "assets/images/chewyduck.JPG",
+            sound: "assets/sounds/chewy-roar.mp3",
+            winSound: "assets/sounds/Chewie-chatting.mp3",
+            loseSound: "assets/sounds/WilhelmScream.mp3",
 
         },
         char2: {
             hp: 180,
-            ap: 18,
-            mult: 9,
-            dAp: 18,
+            ap: 5,
+            mult: 7,
+            dAp: 8,
             image: "assets/images/trooperduck.jpg",
+            sound: "assets/sounds/blaster-firing.mp3",
+            winSound: "assets/sounds/looksir.wav",
+            loseSound: "assets/sounds/WilhelmScream.mp3",
+
 
         },
         char3: {
             hp: 200,
             ap: 10,
-            mult: 7,
-            dAp: 10,
+            mult: 6,
+            dAp: 12,
             image: "assets/images/yodaduck.jpg",
+            sound: "assets/sounds/yodahelp.mp3",
+            winSound: "assets/sounds/yodalaughing.mp3",
+            loseSound: "assets/sounds/WilhelmScream.mp3",
+
 
         },
         char4: {
             hp: 160,
             ap: 20,
-            mult: 8,
-            dAp: 20,
+            mult: 6,
+            dAp: 30,
             image: "assets/images/vadarduck2.jpg",
+            sound: "assets/sounds/swvader04.wav",
+            winSound: "assets/sounds/swvader02.mp3",
+            loseSound: "assets/sounds/trouble.mp3",
+
         },
     }
     var counter = 0;
@@ -103,7 +118,6 @@ $(document).ready(function () {
 
     }
 
-
     function toonPicker() {
         $(".new-div").on("click", function (event) {
             if (enemyChosen) {
@@ -128,6 +142,9 @@ $(document).ready(function () {
                 $(this).addClass("avatar");
                 $(this).children().addClass("avatar1");
                 moveEnemies();
+                var newSound = document.createElement("audio");
+                newSound.src = characters[avatar].sound;
+                newSound.play();
                 combatChosen = true;
                 console.log("avatar = " + avatar);
                 console.log(characters[avatar]);
@@ -137,6 +154,9 @@ $(document).ready(function () {
 
     function endGame() {
         window.location.href = "./reload.html";
+        var lSound = document.createElement("audio");
+        lSound.src = characters[avatar].loseSound;
+        lSound.play();
     }
 
     $("#reset").click(function () {
@@ -144,40 +164,60 @@ $(document).ready(function () {
         console.log(playAgain);
     })
 
-
+    function battle() {
+        var battleSound = document.createElement("audio");
+        battleSound.src = "assets/sounds/light-saber-on.mp3";
+        battleSound.play();
+    }
 
     function attack() {
         $("#attack").on("click", function () {
-            if (characters[avatar].hp <= 0) {
-                alert("boo, you lose");
-                endGame();
-            }
+
+            // if (characters[avatar].hp <= 0) {
+            //     // alert("boo, you lose");
+            //     var lSound = document.createElement("audio");
+            //     lSound.src = characters[avatar].loseSound;
+            //     lSound.play(); 
+            //     endGame();
+            // }
 
             if (enemyChosen && characters[enemy].hp > 0) {
-                //save data as text--parseInt--arithmatic--turn to text again
+                battle();
                 characters[enemy].hp -= characters[avatar].ap;
                 characters[avatar].ap += characters[avatar].mult;
                 if (characters[enemy].hp > 0) {
                     characters[avatar].hp -= characters[enemy].dAp;
                 } else {
-                    alert("you have deafeted " + enemy);
+                    // alert("you have deafeted " + enemy);
+                    var victorySound = document.createElement("audio");
+                    victorySound.src = ("assets/sounds/three-chirp.mp3");
+                    victorySound.play();
                     enemyChosen = false;
                     toonPicker();
                 }
-                console.log(characters[enemy].hp)
+                // console.log(characters[enemy].hp)
 
                 if (characters[enemy].hp <= 0) {
                     deadToon();
                 }
 
                 if (counter === 3 && characters[enemy].hp <= 0) {
-                    alert("yay you win");
+                    // alert("yay you win");
+                    var wSound = document.createElement("audio");
+                    wSound.src = characters[avatar].winSound;
+                    wSound.play();
                 }
 
             }
 
             $(".avatar1").text(characters[avatar].hp);
             $(".enemy1").text(characters[enemy].hp);
+
+            if (characters[avatar].hp <= 0) {
+                
+                endGame();
+             
+            }
         });
     }
 
