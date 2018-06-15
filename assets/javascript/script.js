@@ -10,7 +10,7 @@ $(document).ready(function () {
             ap: 20,
             mult: 9,
             dAp: 20,
-            image: "http://via.placeholder.com/100x100",
+            image: "assets/images/chewyduck.JPG",
 
         },
         char2: {
@@ -18,7 +18,7 @@ $(document).ready(function () {
             ap: 18,
             mult: 9,
             dAp: 18,
-            image: "http://via.placeholder.com/100x100",
+            image: "assets/images/trooperduck.jpg",
 
         },
         char3: {
@@ -26,7 +26,7 @@ $(document).ready(function () {
             ap: 10,
             mult: 7,
             dAp: 10,
-            image: "http://via.placeholder.com/100x100",
+            image: "assets/images/yodaduck.jpg",
 
         },
         char4: {
@@ -34,7 +34,7 @@ $(document).ready(function () {
             ap: 20,
             mult: 8,
             dAp: 20,
-            image: "http://via.placeholder.com/100x100",
+            image: "assets/images/vadarduck2.jpg",
         },
     }
     var counter = 0;
@@ -81,7 +81,7 @@ $(document).ready(function () {
     function moveEnemies() {
         var t = $(".new-div").detach();
         t.appendTo("#make-your-choice");
-        $("#avatar-tag").text("You Will Fight As");
+        $("#avatar-tag").text("YOU WILL FIGHT AS");
 
     }
 
@@ -94,11 +94,11 @@ $(document).ready(function () {
         graveyard = $(".enemy").detach();
         deathCounter++;
         if (deathCounter === 2) {
-            $("#enemy-list").text("Your Last Opponent");
+            $("#enemy-list").text("YOUR LAST OPPONENT");
         } else if (deathCounter === 1) {
-            $("#enemy-list").text("Choose Your Second Opponent");
+            $("#enemy-list").text("CHOOSE YOUR SECOND OPPONENT");
         } else {
-            $("#enemy-list").text("All Opponents Defeated");
+            $("#enemy-list").text("ALL OPPONENTS DEFEATED");
         }
 
     }
